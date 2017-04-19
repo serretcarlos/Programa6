@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace Programa6
 {
     //&p-Programa
+    //&b=7
     class Program
     {
-        //&i
+        //&i    
         static void Main(string[] args)
         {
             string archivo;

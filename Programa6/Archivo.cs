@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Programa6
 {
     //&p-Archivo
+    //&b=40
     class Archivo
     {
         private double parejas = 0;
@@ -16,6 +17,10 @@ namespace Programa6
         private double b0;
         private double b1;
         private double yk;
+        private double sig;
+        private double rango;
+        private double ls;
+        private double li;
 
         //&i
         public Archivo()
@@ -27,6 +32,10 @@ namespace Programa6
             b0 = 0;
             b1 = 0;
             yk = 0;
+            sig = 0;
+            rango = 0;
+            li = 0;
+            ls = 0;
         }
 
         //&i
@@ -79,10 +88,40 @@ namespace Programa6
         }
 
         //&i
+        public double Sig
+        {
+            set { sig = value; }
+            get { return sig; }
+        }
+
+        //&i
+        public double Rango
+        {
+            set { rango = value; }
+            get { return rango; }
+        }
+
+        //&i
+        public double Li
+        {
+            set { li = value; }
+            get { return li; }
+        }
+
+        //&i
+        public double Ls
+        {
+            set { ls = value; }
+            get { return ls; }
+        }
+
+        //&i
         public void toString()
         {
-            Console.WriteLine("N = " + parejas + "\nxk = " + xk + "\nr = " + Math.Round(rxy, 5) + "\nr2 = " +
-                Math.Round(r2, 5) + "\nb0 = " + Math.Round(b0, 5) + "\nb1 = " + Math.Round(b1, 5) + "\nyk = " + Math.Round(yk, 5));
+            Console.WriteLine("N = " + parejas + "\nxk = " + xk.ToString("N5") + "\nr = " + rxy.ToString("N5") + "\nr2 = " +
+                r2.ToString("N5") + "\nb0 = " + b0.ToString("N5") + "\nb1 = " + b1.ToString("N5") + "\nyk = " + yk.ToString("N5") +
+                "\nsig = " + sig.ToString("N10") + "\nran = " + rango.ToString("N5") + "\nls = " + ls.ToString("N5") + "\nli = " + li.ToString("N5"));
+
         }
     }
 }
