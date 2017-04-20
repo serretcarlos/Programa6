@@ -43,7 +43,6 @@ namespace Programa6
             for (int i = 0; i <= num_seg; i++)
             {
                 distribucion = new Distribucion(dXi, dof);
-
                 if (i == 0 || i == num_seg)
                 {
                     multiplier = 1;

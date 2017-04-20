@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Programa6
 {
-    //&p-Parejas
+    //&p-Controlador
     //&b=63
     class Controlador
     {
@@ -17,10 +17,6 @@ namespace Programa6
         private double sumYi;
         private double sumXi2;
         private double sumYi2;
-        private double sig;
-        private double rango;
-        private double ls;
-        private double li;
         private List<Tuple<double, double>> pares;
 
         //&i
@@ -31,13 +27,8 @@ namespace Programa6
             sumYi = 0;
             sumXi2 = 0;
             sumYi2 = 0;
-            sig = 0;
-            rango = 0;
-            ls = 0;
-            li = 0;
             pares = new List<Tuple<double, double>>();
         }
-
 
         /// <summary>
         /// Procesa el archivo y lee línea por línea de este, calculando totales correspondientes
@@ -66,7 +57,6 @@ namespace Programa6
                     string sLinea = entrada.ReadLine();
                     archivo.Xk = double.Parse(sLinea);
                     sLinea = entrada.ReadLine();
-                    double sumx = 0, sumy = 0;
                     Tuple<double, double> pair;
                     while (sLinea != null)
                     {
@@ -114,8 +104,7 @@ namespace Programa6
         //&i
         private double calcularR2()
         {
-            double r2 = archivo.Rxy * archivo.Rxy;
-            return r2;
+            return archivo.Rxy * archivo.Rxy;
         }
 
         /// <summary>
@@ -130,8 +119,7 @@ namespace Programa6
             double covarianza = sumXiYi / archivo.Parejas - mediaXi * mediaYi;
             double desviacion1 = Math.Sqrt(sumXi2 / archivo.Parejas - (mediaXi * mediaXi));
             double desviacion2 = Math.Sqrt(sumYi2 / archivo.Parejas - (mediaYi * mediaYi));
-            double rxy = covarianza / (desviacion1 * desviacion2);
-            return rxy;
+            return covarianza / (desviacion1 * desviacion2);
         }
 
         /// <summary>
@@ -162,10 +150,13 @@ namespace Programa6
         //&i
         private double calcularYk()
         {
-            double yk = archivo.B0 + archivo.B1 * archivo.Xk;
-            return yk;
+            return  archivo.B0 + archivo.B1 * archivo.Xk;
         }
 
+        /// <summary>
+        /// Calcula el valor de la significancia de correlación
+        /// </summary>
+        /// <returns>valor tipo doble</returns>
         //&i
         private double calcularSig()
         {
@@ -175,6 +166,10 @@ namespace Programa6
             return 1.0 - (2.0 * p);
         }
 
+        /// <summary>
+        /// Calcula el rango
+        /// </summary>
+        /// <returns>valor tipo doble</returns>
         //&i
         private double calcularRango()
         {
@@ -207,37 +202,50 @@ namespace Programa6
             result = result / sumX;
             result = result + (1 + (1 / N));
             result = Math.Sqrt(result);
-            result = result * mean * dX;
-            return result;
+            return result * mean * dX;
         }
 
+        /// <summary>
+        /// Se calcula la P 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="dof"></param>
+        /// <returns>Valor tipo doble res</returns>
+        //&i
         private double calcularP(double x, double dof)
         {
-            int iNum_seg = 10;
-            double dResta;
-            double dE = 0.00000000001; // margen de error
+            int num_seg = 10;
+            double resta;
+            double dE = 0.00000000001; 
 
-            Simpson simAux = new Simpson(x, dof, iNum_seg);
-            iNum_seg += 10;
-            Simpson simResultado = new Simpson(x, dof, iNum_seg);
-            dResta = simAux.FuncionP() - simResultado.FuncionP();
-            while (Math.Abs(dResta) >= dE)
+            Simpson simpsonA = new Simpson(x, dof, num_seg);
+            num_seg += 10;
+            Simpson simpsonB = new Simpson(x, dof, num_seg);
+            resta = simpsonA.FuncionP() - simpsonB.FuncionP();
+            while (Math.Abs(resta) >= dE)
             {
-                simAux = simResultado;
-                iNum_seg += 10;
-                simResultado = new Simpson(x, dof, iNum_seg);
-                dResta = simAux.FuncionP() - simResultado.FuncionP();
-            }
-            return simResultado.FuncionP();
+                simpsonA = simpsonB;
+                num_seg += 10;
+                simpsonB = new Simpson(x, dof, num_seg);
+                resta = simpsonA.FuncionP() - simpsonB.FuncionP();
+            } 
+            return simpsonB.FuncionP();
         }
 
-        private double calcularX(double originalP, double dof)
+        /// <summary>
+        /// Se calcula la x
+        /// </summary>
+        /// <param name="firstP"></param>
+        /// <param name="dof"></param>
+        /// <returns>valor tipo doble dx</returns>
+        //&i
+        private double calcularX(double firstP, double dof)
         {
             double dE = 0.00000000001;
             double dX = 1.0;
             double dD = 0.5;
             double dP = calcularP(dX, dof);
-            double resta = dP - originalP;
+            double resta = dP - firstP;
             double dAux = resta;
             
             while (Math.Abs(resta) >= dE)
@@ -258,7 +266,7 @@ namespace Programa6
                 
                 dP = calcularP(dX, dof);
                 dAux = resta;
-                resta = dP - originalP;
+                resta = dP - firstP;
             }
             return dX;
         }

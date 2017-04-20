@@ -102,6 +102,7 @@ namespace Programa6
         }
 
         //&i
+
         public double Li
         {
             set { li = value; }
@@ -120,8 +121,7 @@ namespace Programa6
         {
             Console.WriteLine("N = " + parejas + "\nxk = " + xk.ToString("N5") + "\nr = " + rxy.ToString("N5") + "\nr2 = " +
                 r2.ToString("N5") + "\nb0 = " + b0.ToString("N5") + "\nb1 = " + b1.ToString("N5") + "\nyk = " + yk.ToString("N5") +
-                "\nsig = " + sig.ToString("N10") + "\nran = " + rango.ToString("N5") + "\nls = " + ls.ToString("N5") + "\nli = " + li.ToString("N5"));
-
+                "\nsig = " + sig.ToString("N10") + "\nran = " + rango.ToString("N5") + "\nLS = " + ls.ToString("N5") + "\nLI = " + li.ToString("N5"));//&m
         }
     }
 }
